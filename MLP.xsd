@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="XESSPlus" >
+		<xs:complexType>
+			<xs:choice>
+				<xs:element name="classification" type="classification"></xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="MultiLayerPerceptron">
+		<xs:sequence>
+			<xs:element name="inputLayerActivation" default="Linear" >
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Linear"/>
+						<xs:enumeration value="Ramp"/>
+						<xs:enumeration value="Step"/>
+						<xs:enumeration value="Sigmoid"/>
+						<xs:enumeration value="Tanh"/>
+						<xs:enumeration value="Gaussian"/>
+						<xs:enumeration value="Trapezoid"/>
+						<xs:enumeration value="Sgn"/>
+						<xs:enumeration value="Sin"/>
+						<xs:enumeration value="Log"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="hiddenLayerActivation" >
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Sigmoid"/>
+						<xs:enumeration value="TanH"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="hiddenLayers">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="([0-9])+(,([0-9])+)"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="outputLayerActivation" >
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Softmax"/>
+						<xs:enumeration value="Softmax2"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+
+			<!--
+				<xs:element name="connectivity">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="FULL"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="momentum" type="xs:decimal"/>
+			-->
+
+			<xs:element name="epochs" type="xs:int"/>
+
+			<xs:element name="learningRate" type="xs:decimal"/>
+			<xs:element name="weightdecay" type="xs:decimal"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="classification">
+		<xs:sequence>
+			<xs:element name="datafile" type="xs:string"/>
+			<xs:element name="input" type="xs:int"/>
+			<xs:element name="output" type="xs:int"/>
+			<xs:element name="classes" type="xs:int"/>
+			<xs:element name="split" type="xs:decimal"/>
+			<xs:element name="delimiter" type="xs:string"/>
+			<xs:element name="algorithm">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="MultiLayerPerceptron" type="MultiLayerPerceptron"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

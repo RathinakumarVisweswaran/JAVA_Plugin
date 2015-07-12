@@ -1,0 +1,23 @@
+<XESSPlus>
+  <classification>
+    <datafile>data/Iris.csv</datafile>
+    <input>4</input>
+    <output>1</output>
+    <classes>3</classes>
+    <split>70</split>
+    <delimiter>,</delimiter>
+    <algorithm>
+      <MultiLayerPerceptron>
+        <inputLayerActivation>NonLinear</inputLayerActivation>
+        <hiddenLayerActivation>Sigmoid</hiddenLayerActivation>
+        <hiddenLayers>3,4</hiddenLayers>
+        <outputLayerActivation>Softmax</outputLayerActivation>
+        <connectivity>FULL</connectivity>
+        <epochs>3</epochs>
+        <momentum>1000.00</momentum>
+        <learningRate>1000.00</learningRate>
+        <weightdecay>1000.00</weightdecay>
+      </MultiLayerPerceptron>
+    </algorithm>
+  </classification>
+</XESSPlus>
