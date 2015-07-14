@@ -3,9 +3,14 @@ package neuroph;
 import interfaces.Adapter;
 import org.neuroph.core.Layer;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
 import xml.XESSPlus;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 /**
  * Created by Rathinakumar on 7/11/2015.
@@ -14,7 +19,7 @@ public class MLP implements Adapter {
 
 
     @Override
-    public String initiateAlgoUsing(XESSPlus xsPlus, String outputLoc) {
+    public String initiateAlgoUsing(XESSPlus xsPlus, String outputLoc) throws IOException {
         // TODO Auto-generated method stub
         // get the path to file with data
 
@@ -48,7 +53,6 @@ public class MLP implements Adapter {
 
         int classes = xmlClassification.getClasses();
         //double momentum = Double.parseDouble(xmlMLP.getMomentum().toString());
-        double decayRate = Double.parseDouble(xmlMLP.getWeightdecay().toString());
 
 
         NeuronProperties inputProperties = new NeuronProperties(),
@@ -63,7 +67,7 @@ public class MLP implements Adapter {
                 outputLayer = new Layer(inputNeurons, inputProperties);
 
         // create MultiLayerPerceptron neural network
-        org.neuroph.nnet.MultiLayerPerceptron neuralNet = new org.neuroph.nnet.MultiLayerPerceptron();
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron();
         neuralNet.addLayer(inputLayer);
         for(String n : hiddenLayers.split(","))
             neuralNet.addLayer(new Layer(Integer.parseInt(n), hiddenProperties));
@@ -78,6 +82,12 @@ public class MLP implements Adapter {
 
 
         neuralNet.learn(trainDataSet);
+
+        //saving the model
+        File output = new File("output\\MLP_"+System.currentTimeMillis());
+        File input = new File(inputFileName);
+        if(output.mkdir())
+            Files.copy(input.toPath(), output.toPath());
 
         System.out.println("Done training.");
         System.out.println("Testing network...");

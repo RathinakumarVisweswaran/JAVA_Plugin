@@ -12,7 +12,7 @@ import java.io.File;
  */
 public class XMLParser {
     public static void main(String[] args) throws JAXBException {
-        File file = new File("examples//MLP_Iris.xml");
+        File file = new File("src\\examples\\RBF.xml");
         JAXBContext jaxbContext = JAXBContext.newInstance(XESSPlus.class);
 
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();

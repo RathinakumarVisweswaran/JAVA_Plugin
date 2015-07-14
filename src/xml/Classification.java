@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *                 &lt;choice>
  *                   &lt;element name="MultiLayerPerceptron" type="{}MultiLayerPerceptron"/>
+ *                   &lt;element name="RadialBasisFunctionNetwork" type="{}RadialBasisFunctionNetwork"/>
  *                 &lt;/choice>
  *               &lt;/restriction>
  *             &lt;/complexContent>
@@ -223,6 +224,7 @@ public class Classification {
      *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
      *       &lt;choice>
      *         &lt;element name="MultiLayerPerceptron" type="{}MultiLayerPerceptron"/>
+     *         &lt;element name="RadialBasisFunctionNetwork" type="{}RadialBasisFunctionNetwork"/>
      *       &lt;/choice>
      *     &lt;/restriction>
      *   &lt;/complexContent>
@@ -233,12 +235,15 @@ public class Classification {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "multiLayerPerceptron"
+        "multiLayerPerceptron",
+        "radialBasisFunctionNetwork"
     })
     public static class Algorithm {
 
         @XmlElement(name = "MultiLayerPerceptron")
         protected MultiLayerPerceptron multiLayerPerceptron;
+        @XmlElement(name = "RadialBasisFunctionNetwork")
+        protected RadialBasisFunctionNetwork radialBasisFunctionNetwork;
 
         /**
          * Gets the value of the multiLayerPerceptron property.
@@ -262,6 +267,30 @@ public class Classification {
          */
         public void setMultiLayerPerceptron(MultiLayerPerceptron value) {
             this.multiLayerPerceptron = value;
+        }
+
+        /**
+         * Gets the value of the radialBasisFunctionNetwork property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link RadialBasisFunctionNetwork }
+         *     
+         */
+        public RadialBasisFunctionNetwork getRadialBasisFunctionNetwork() {
+            return radialBasisFunctionNetwork;
+        }
+
+        /**
+         * Sets the value of the radialBasisFunctionNetwork property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link RadialBasisFunctionNetwork }
+         *     
+         */
+        public void setRadialBasisFunctionNetwork(RadialBasisFunctionNetwork value) {
+            this.radialBasisFunctionNetwork = value;
         }
 
     }

@@ -22,15 +22,31 @@ import javax.xml.bind.annotation.XmlType;
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
  *               &lt;enumeration value="Linear"/>
- *               &lt;enumeration value="NonLinear"/>
+ *               &lt;enumeration value="Ramp"/>
+ *               &lt;enumeration value="Step"/>
+ *               &lt;enumeration value="Sigmoid"/>
+ *               &lt;enumeration value="Tanh"/>
+ *               &lt;enumeration value="Gaussian"/>
+ *               &lt;enumeration value="Trapezoid"/>
+ *               &lt;enumeration value="Sgn"/>
+ *               &lt;enumeration value="Sin"/>
+ *               &lt;enumeration value="Log"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
  *         &lt;element name="hiddenLayerActivation">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *               &lt;enumeration value="Linear"/>
+ *               &lt;enumeration value="Ramp"/>
+ *               &lt;enumeration value="Step"/>
  *               &lt;enumeration value="Sigmoid"/>
- *               &lt;enumeration value="TanH"/>
+ *               &lt;enumeration value="Tanh"/>
+ *               &lt;enumeration value="Gaussian"/>
+ *               &lt;enumeration value="Trapezoid"/>
+ *               &lt;enumeration value="Sgn"/>
+ *               &lt;enumeration value="Sin"/>
+ *               &lt;enumeration value="Log"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
@@ -44,22 +60,22 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="outputLayerActivation">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="Softmax"/>
- *               &lt;enumeration value="Softmax2"/>
+ *               &lt;enumeration value="Linear"/>
+ *               &lt;enumeration value="Ramp"/>
+ *               &lt;enumeration value="Step"/>
+ *               &lt;enumeration value="Sigmoid"/>
+ *               &lt;enumeration value="Tanh"/>
+ *               &lt;enumeration value="Gaussian"/>
+ *               &lt;enumeration value="Trapezoid"/>
+ *               &lt;enumeration value="Sgn"/>
+ *               &lt;enumeration value="Sin"/>
+ *               &lt;enumeration value="Log"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
- *         &lt;element name="connectivity">
- *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="FULL"/>
- *             &lt;/restriction>
- *           &lt;/simpleType>
- *         &lt;/element>
- *         &lt;element name="epochs" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="momentum" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
+ *         &lt;element name="epochs" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="learningRate" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
- *         &lt;element name="weightdecay" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -74,11 +90,9 @@ import javax.xml.bind.annotation.XmlType;
     "hiddenLayerActivation",
     "hiddenLayers",
     "outputLayerActivation",
-    "connectivity",
-    "epochs",
     "momentum",
-    "learningRate",
-    "weightdecay"
+    "epochs",
+    "learningRate"
 })
 public class MultiLayerPerceptron {
 
@@ -91,14 +105,10 @@ public class MultiLayerPerceptron {
     @XmlElement(required = true)
     protected String outputLayerActivation;
     @XmlElement(required = true)
-    protected String connectivity;
+    protected BigDecimal momentum;
     protected int epochs;
     @XmlElement(required = true)
-    protected BigDecimal momentum;
-    @XmlElement(required = true)
     protected BigDecimal learningRate;
-    @XmlElement(required = true)
-    protected BigDecimal weightdecay;
 
     /**
      * Gets the value of the inputLayerActivation property.
@@ -197,46 +207,6 @@ public class MultiLayerPerceptron {
     }
 
     /**
-     * Gets the value of the connectivity property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getConnectivity() {
-        return connectivity;
-    }
-
-    /**
-     * Sets the value of the connectivity property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setConnectivity(String value) {
-        this.connectivity = value;
-    }
-
-    /**
-     * Gets the value of the epochs property.
-     * 
-     */
-    public int getEpochs() {
-        return epochs;
-    }
-
-    /**
-     * Sets the value of the epochs property.
-     * 
-     */
-    public void setEpochs(int value) {
-        this.epochs = value;
-    }
-
-    /**
      * Gets the value of the momentum property.
      * 
      * @return
@@ -261,6 +231,22 @@ public class MultiLayerPerceptron {
     }
 
     /**
+     * Gets the value of the epochs property.
+     * 
+     */
+    public int getEpochs() {
+        return epochs;
+    }
+
+    /**
+     * Sets the value of the epochs property.
+     * 
+     */
+    public void setEpochs(int value) {
+        this.epochs = value;
+    }
+
+    /**
      * Gets the value of the learningRate property.
      * 
      * @return
@@ -282,30 +268,6 @@ public class MultiLayerPerceptron {
      */
     public void setLearningRate(BigDecimal value) {
         this.learningRate = value;
-    }
-
-    /**
-     * Gets the value of the weightdecay property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigDecimal }
-     *     
-     */
-    public BigDecimal getWeightdecay() {
-        return weightdecay;
-    }
-
-    /**
-     * Sets the value of the weightdecay property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigDecimal }
-     *     
-     */
-    public void setWeightdecay(BigDecimal value) {
-        this.weightdecay = value;
     }
 
 }

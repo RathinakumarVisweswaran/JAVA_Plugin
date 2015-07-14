@@ -46,6 +46,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link RecurrentNeuralNetwork }
+     * 
+     */
+    public RecurrentNeuralNetwork createRecurrentNeuralNetwork() {
+        return new RecurrentNeuralNetwork();
+    }
+
+    /**
+     * Create an instance of {@link RadialBasisFunctionNetwork }
+     * 
+     */
+    public RadialBasisFunctionNetwork createRadialBasisFunctionNetwork() {
+        return new RadialBasisFunctionNetwork();
+    }
+
+    /**
      * Create an instance of {@link MultiLayerPerceptron }
      * 
      */
