@@ -3,6 +3,7 @@ package neuroph;
 import interfaces.Adapter;
 import org.neuroph.core.Layer;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.core.transfer.*;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
@@ -11,19 +12,35 @@ import xml.XESSPlus;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Rathinakumar on 7/11/2015.
  */
 public class MLP implements Adapter {
 
+    public static Map<String, Class<? extends TransferFunction>> transferFunctionMap = new HashMap<>();
+
+    public MLP()
+    {
+        transferFunctionMap.put("Linear", Linear.class);
+        transferFunctionMap.put("Ramp", Ramp.class);
+        transferFunctionMap.put("Step", Step.class);
+        transferFunctionMap.put("Sigmoid", Sigmoid.class);
+        transferFunctionMap.put("Tanh", Tanh.class);
+        transferFunctionMap.put("Gaussian", Gaussian.class);
+        transferFunctionMap.put("Trapezoid", Trapezoid.class);
+        transferFunctionMap.put("Sgn", Sgn.class);
+        transferFunctionMap.put("Sin", Sin.class);
+        transferFunctionMap.put("Log", Log.class);
+    }
+
 
     @Override
-    public String initiateAlgoUsing(XESSPlus xsPlus, String outputLoc) throws IOException {
+    public String initiateAlgoUsing(XESSPlus xsPlus) throws IOException {
         // TODO Auto-generated method stub
         // get the path to file with data
-
-
         /*
         	DONE <xs:element name="datafile" type="xs:string"/>
 			<xs:element name="input" type="xs:int"/>
@@ -59,19 +76,20 @@ public class MLP implements Adapter {
                 outputProperties = new NeuronProperties(),
                 hiddenProperties = new NeuronProperties();
 
-        inputProperties.setProperty("transferFunction", inputLayerActivation);
-        outputProperties.setProperty("transferFunction", outputLayerActivation);
-        hiddenProperties.setProperty("transferFunction", hiddenLayerActivation);
 
-        Layer inputLayer = new Layer(inputNeurons, inputProperties),
-                outputLayer = new Layer(inputNeurons, inputProperties);
+        outputProperties.setProperty("transferFunction", transferFunctionMap.get(outputLayerActivation));
+        hiddenProperties.setProperty("transferFunction", transferFunctionMap.get(hiddenLayerActivation));
+
+        //inputProperties.setProperty("transferFunction", new TransferFunctionType(inputLayerActivation));
+        //Layer inputLayer = new Layer(inputNeurons, inputProperties),
+          Layer outputLayer = new Layer(outputNeurons, outputProperties);
 
         // create MultiLayerPerceptron neural network
-        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron();
-        neuralNet.addLayer(inputLayer);
+        MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(TransferFunctionType.valueOf(inputLayerActivation.toUpperCase()), inputNeurons, outputNeurons);
+        //neuralNet.addLayer(inputLayer);
         for(String n : hiddenLayers.split(","))
-            neuralNet.addLayer(new Layer(Integer.parseInt(n), hiddenProperties));
-        neuralNet.addLayer(outputLayer);
+            neuralNet.addLayer( neuralNet.getLayersCount()-1,new Layer(Integer.parseInt(n), hiddenProperties));
+        //neuralNet.addLayer(outputLayer);
 
         // create training set from file
         DataSet trainDataSet = DataSet.createFromFile(inputFileName, inputNeurons, outputNeurons, delimiter, false);
@@ -83,14 +101,25 @@ public class MLP implements Adapter {
 
         neuralNet.learn(trainDataSet);
 
-        //saving the model
-        File output = new File("output\\MLP_"+System.currentTimeMillis());
-        File input = new File(inputFileName);
-        if(output.mkdir())
-            Files.copy(input.toPath(), output.toPath());
+
 
         System.out.println("Done training.");
         System.out.println("Testing network...");
         return null;
     }
+
+    private boolean saveModel(MultiLayerPerceptron neuralNet)
+    {
+        //saving the model
+        File outputDir = new File("output\\MLP_"+System.currentTimeMillis());
+        //File input = new File(inputFileName);
+        if(outputDir.mkdir())
+        {
+            System.out.println("saving to " + outputDir.getAbsolutePath().concat("\\MLP"));
+            neuralNet.save(outputDir.getAbsolutePath().concat("\\MLP"));
+            return true;
+        }
+        return false;
+    }
+
 }

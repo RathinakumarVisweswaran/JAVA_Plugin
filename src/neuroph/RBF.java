@@ -1,17 +1,21 @@
-package trainedModels;
+package neuroph;
 
 import interfaces.Adapter;
+import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.RBFNetwork;
 import org.neuroph.nnet.learning.RBFLearning;
 import xml.XESSPlus;
+
+import java.util.Arrays;
 
 /**
  * Created by Rathinakumar on 7/13/2015.
  */
 public class RBF implements Adapter {
     @Override
-    public String initiateAlgoUsing(XESSPlus xsPlus, String outputLoc) {
+    public String initiateAlgoUsing(XESSPlus xsPlus) {
 
 
         // get the path to file with data
@@ -36,5 +40,21 @@ public class RBF implements Adapter {
 
         //testNeuralNetwork(neuralNet, dataSet);
         return null;
+    }
+
+    /**
+     * Prints network output for the each element from the specified training set.
+     * @param neuralNet neural network
+     * @param testSet test data set
+     */
+    public void testNeuralNetwork(NeuralNetwork neuralNet, DataSet testSet) {
+        for(DataSetRow testSetRow : testSet.getRows()) {
+            neuralNet.setInput(testSetRow.getInput());
+            neuralNet.calculate();
+            double[] networkOutput = neuralNet.getOutput();
+
+            System.out.print("Input: " + Arrays.toString(testSetRow.getInput()) );
+            System.out.println(" Output: " + Arrays.toString( networkOutput) );
+        }
     }
 }
