@@ -1,9 +1,6 @@
 package parser;
 
 import interfaces.Adapter;
-import neuroph.MLP;
-import neuroph.RBF_Adapter;
-import xml.Classification;
 import xml.XESSPlus;
 
 import javax.xml.bind.JAXBContext;

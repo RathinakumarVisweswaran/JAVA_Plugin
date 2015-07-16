@@ -1,7 +1,7 @@
 package parser;
 
 import interfaces.Adapter;
-import neuroph.MLP;
+import neuroph.MLP_Adapter;
 import neuroph.RBF_Adapter;
 import xml.Classification;
 import xml.XESSPlus;
@@ -18,7 +18,7 @@ public class AdapterFactory {
             Classification.Algorithm algo = xessPlus.getClassification().getAlgorithm();
             if(algo.getMultiLayerPerceptron()!=null)
             {
-                MLP mlp = new MLP();
+                MLP_Adapter mlp = new MLP_Adapter();
                 return mlp;
             }
             if(algo.getRadialBasisFunctionNetwork()!=null)

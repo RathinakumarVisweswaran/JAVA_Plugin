@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Created by Rathinakumar on 7/11/2015.
  */
-public class MLP implements Adapter {
+public class MLP_Adapter implements Adapter {
 
     @Override
     public String tranNeuralNetwork(XESSPlus xsPlus, String saveLocation) throws IOException {
