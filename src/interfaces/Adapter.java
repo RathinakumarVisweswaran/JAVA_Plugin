@@ -11,5 +11,6 @@ import java.util.Map;
  * Created by Rathinakumar on 7/11/2015.
  */
 public interface Adapter {
-    public String initiateAlgoUsing(XESSPlus xsPlus) throws IOException;
+    public String tranNeuralNetwork(XESSPlus xsPlus, String saveLocation) throws IOException;
+    public void testNeuralNetwork(String savedModel, String testDataFile, String output) throws IOException;
 }

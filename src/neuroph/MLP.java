@@ -2,16 +2,18 @@ package neuroph;
 
 import interfaces.Adapter;
 import org.neuroph.core.Layer;
+import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.transfer.*;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
 import xml.XESSPlus;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,25 +22,8 @@ import java.util.Map;
  */
 public class MLP implements Adapter {
 
-    public static Map<String, Class<? extends TransferFunction>> transferFunctionMap = new HashMap<>();
-
-    public MLP()
-    {
-        transferFunctionMap.put("Linear", Linear.class);
-        transferFunctionMap.put("Ramp", Ramp.class);
-        transferFunctionMap.put("Step", Step.class);
-        transferFunctionMap.put("Sigmoid", Sigmoid.class);
-        transferFunctionMap.put("Tanh", Tanh.class);
-        transferFunctionMap.put("Gaussian", Gaussian.class);
-        transferFunctionMap.put("Trapezoid", Trapezoid.class);
-        transferFunctionMap.put("Sgn", Sgn.class);
-        transferFunctionMap.put("Sin", Sin.class);
-        transferFunctionMap.put("Log", Log.class);
-    }
-
-
     @Override
-    public String initiateAlgoUsing(XESSPlus xsPlus) throws IOException {
+    public String tranNeuralNetwork(XESSPlus xsPlus, String saveLocation) throws IOException {
         // TODO Auto-generated method stub
         // get the path to file with data
         /*
@@ -63,9 +48,9 @@ public class MLP implements Adapter {
         String delimiter = xmlClassification.getDelimiter();
 
         double learningRate = Double.parseDouble(xmlMLP.getLearningRate().toString());
-        String inputLayerActivation = xmlMLP.getInputLayerActivation();
-        String outputLayerActivation = xmlMLP.getOutputLayerActivation();
-        String hiddenLayerActivation = xmlMLP.getHiddenLayerActivation();
+        String inputLayerActivation = xmlMLP.getInputLayerActivation().toUpperCase();
+        String outputLayerActivation = xmlMLP.getOutputLayerActivation().toUpperCase();
+        String hiddenLayerActivation = xmlMLP.getHiddenLayerActivation().toUpperCase();
         int epochs = xmlMLP.getEpochs();
 
         int classes = xmlClassification.getClasses();
@@ -77,8 +62,8 @@ public class MLP implements Adapter {
                 hiddenProperties = new NeuronProperties();
 
 
-        outputProperties.setProperty("transferFunction", transferFunctionMap.get(outputLayerActivation));
-        hiddenProperties.setProperty("transferFunction", transferFunctionMap.get(hiddenLayerActivation));
+        outputProperties.setProperty("transferFunction", TransferFunctionType.valueOf(outputLayerActivation).getTypeClass());
+        hiddenProperties.setProperty("transferFunction", TransferFunctionType.valueOf(hiddenLayerActivation).getTypeClass());
 
         //inputProperties.setProperty("transferFunction", new TransferFunctionType(inputLayerActivation));
         //Layer inputLayer = new Layer(inputNeurons, inputProperties),
@@ -88,7 +73,7 @@ public class MLP implements Adapter {
         MultiLayerPerceptron neuralNet = new MultiLayerPerceptron(TransferFunctionType.valueOf(inputLayerActivation.toUpperCase()), inputNeurons, outputNeurons);
         //neuralNet.addLayer(inputLayer);
         for(String n : hiddenLayers.split(","))
-            neuralNet.addLayer( neuralNet.getLayersCount()-1,new Layer(Integer.parseInt(n), hiddenProperties));
+            neuralNet.addLayer(neuralNet.getLayersCount() - 1, new Layer(Integer.parseInt(n), hiddenProperties));
         //neuralNet.addLayer(outputLayer);
 
         // create training set from file
@@ -102,24 +87,40 @@ public class MLP implements Adapter {
         neuralNet.learn(trainDataSet);
 
 
-
+/*
         System.out.println("Done training.");
-        System.out.println("Testing network...");
-        return null;
+        System.out.println("Testing network...");*/
+        return saveModel(neuralNet, saveLocation);
     }
 
-    private boolean saveModel(MultiLayerPerceptron neuralNet)
+    private String saveModel(MultiLayerPerceptron neuralNet, String saveLocation)
     {
         //saving the model
-        File outputDir = new File("output\\MLP_"+System.currentTimeMillis());
+        File outputDir = new File(saveLocation+"\\"+System.currentTimeMillis());
         //File input = new File(inputFileName);
         if(outputDir.mkdir())
         {
-            System.out.println("saving to " + outputDir.getAbsolutePath().concat("\\MLP"));
             neuralNet.save(outputDir.getAbsolutePath().concat("\\MLP"));
-            return true;
+            System.out.println("saving to " + outputDir.getAbsolutePath().concat("\\MLP"));
         }
-        return false;
+        return outputDir.getAbsolutePath().concat("\\MLP");
+    }
+
+    public void testNeuralNetwork(String savedModel, String testDataFile, String output) throws IOException {
+        File file = new File(savedModel);
+        MultiLayerPerceptron model = (MultiLayerPerceptron) NeuralNetwork.load(new FileInputStream(file));
+        DataSet testDataSet = DataSet.createFromFile(testDataFile, model.getInputsCount(), model.getOutputsCount(), ",", false);
+
+        FileWriter outputFile = new FileWriter(new File(output));
+
+        for(DataSetRow testSetRow : testDataSet.getRows()) {
+            model.setInput(testSetRow.getInput());
+            model.calculate();
+            double[] networkOutput = model.getOutput();
+            outputFile.write("Input: " + Arrays.toString(testSetRow.getInput()) + "\n");
+            outputFile.write(" Output: " + Arrays.toString(networkOutput) + "\n");
+        }
+        outputFile.flush();
     }
 
 }
