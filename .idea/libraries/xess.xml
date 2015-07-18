@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="xess">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jess.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsr94.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kxml2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/kxml2-2.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

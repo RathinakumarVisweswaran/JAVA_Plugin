@@ -3,22 +3,23 @@ package xml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for MachineLearning complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="MachineLearning">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;choice>
- *         &lt;element name="classification" type="{}classification"/>
- *       &lt;/choice>
+ *       &lt;sequence>
+ *         &lt;choice>
+ *           &lt;element name="classification" type="{}classification"/>
+ *         &lt;/choice>
+ *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -27,11 +28,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+@XmlType(name = "MachineLearning", propOrder = {
     "classification"
 })
-@XmlRootElement(name = "XESSPlus")
-public class XESSPlus {
+public class MachineLearning {
 
     protected Classification classification;
 

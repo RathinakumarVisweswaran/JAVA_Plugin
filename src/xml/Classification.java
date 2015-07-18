@@ -29,8 +29,8 @@ import javax.xml.bind.annotation.XmlType;
  *             &lt;complexContent>
  *               &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *                 &lt;choice>
- *                   &lt;element name="MultiLayerPerceptron" type="{}MultiLayerPerceptron"/>
  *                   &lt;element name="RadialBasisFunctionNetwork" type="{}RadialBasisFunctionNetwork"/>
+ *                   &lt;element name="MultiLayerPerceptron" type="{}MultiLayerPerceptron"/>
  *                 &lt;/choice>
  *               &lt;/restriction>
  *             &lt;/complexContent>
@@ -223,8 +223,8 @@ public class Classification {
      *   &lt;complexContent>
      *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
      *       &lt;choice>
-     *         &lt;element name="MultiLayerPerceptron" type="{}MultiLayerPerceptron"/>
      *         &lt;element name="RadialBasisFunctionNetwork" type="{}RadialBasisFunctionNetwork"/>
+     *         &lt;element name="MultiLayerPerceptron" type="{}MultiLayerPerceptron"/>
      *       &lt;/choice>
      *     &lt;/restriction>
      *   &lt;/complexContent>
@@ -235,39 +235,15 @@ public class Classification {
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "multiLayerPerceptron",
-        "radialBasisFunctionNetwork"
+        "radialBasisFunctionNetwork",
+        "multiLayerPerceptron"
     })
     public static class Algorithm {
 
-        @XmlElement(name = "MultiLayerPerceptron")
-        protected MultiLayerPerceptron multiLayerPerceptron;
         @XmlElement(name = "RadialBasisFunctionNetwork")
         protected RadialBasisFunctionNetwork radialBasisFunctionNetwork;
-
-        /**
-         * Gets the value of the multiLayerPerceptron property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link MultiLayerPerceptron }
-         *     
-         */
-        public MultiLayerPerceptron getMultiLayerPerceptron() {
-            return multiLayerPerceptron;
-        }
-
-        /**
-         * Sets the value of the multiLayerPerceptron property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link MultiLayerPerceptron }
-         *     
-         */
-        public void setMultiLayerPerceptron(MultiLayerPerceptron value) {
-            this.multiLayerPerceptron = value;
-        }
+        @XmlElement(name = "MultiLayerPerceptron")
+        protected MultiLayerPerceptron multiLayerPerceptron;
 
         /**
          * Gets the value of the radialBasisFunctionNetwork property.
@@ -291,6 +267,30 @@ public class Classification {
          */
         public void setRadialBasisFunctionNetwork(RadialBasisFunctionNetwork value) {
             this.radialBasisFunctionNetwork = value;
+        }
+
+        /**
+         * Gets the value of the multiLayerPerceptron property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link MultiLayerPerceptron }
+         *     
+         */
+        public MultiLayerPerceptron getMultiLayerPerceptron() {
+            return multiLayerPerceptron;
+        }
+
+        /**
+         * Sets the value of the multiLayerPerceptron property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link MultiLayerPerceptron }
+         *     
+         */
+        public void setMultiLayerPerceptron(MultiLayerPerceptron value) {
+            this.multiLayerPerceptron = value;
         }
 
     }

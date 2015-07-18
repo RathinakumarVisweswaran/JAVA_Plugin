@@ -4,18 +4,18 @@ import interfaces.Adapter;
 import neuroph.MLP_Adapter;
 import neuroph.RBF_Adapter;
 import xml.Classification;
-import xml.XESSPlus;
+import xml.MachineLearning;
 
 /**
  * Created by Rathinakumar on 7/15/2015.
  */
 public class AdapterFactory {
 
-    public static Adapter getAdapter(XESSPlus xessPlus)
+    public static Adapter getAdapter(MachineLearning machineLearning)
     {
-        if(xessPlus.getClassification() != null)
+        if(machineLearning.getClassification() != null)
         {
-            Classification.Algorithm algo = xessPlus.getClassification().getAlgorithm();
+            Classification.Algorithm algo = machineLearning.getClassification().getAlgorithm();
             if(algo.getMultiLayerPerceptron()!=null)
             {
                 MLP_Adapter mlp = new MLP_Adapter();

@@ -7,7 +7,7 @@ import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.RBFNetwork;
 import org.neuroph.nnet.learning.RBFLearning;
-import xml.XESSPlus;
+import xml.MachineLearning;
 
 import java.io.*;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class RBF_Adapter implements Adapter {
 
     @Override
-    public String tranNeuralNetwork(XESSPlus xsPlus, String saveLocation) {
+    public String tranNeuralNetwork(MachineLearning machineLearning, String saveLocation) {
 
 
         // get the path to file with data

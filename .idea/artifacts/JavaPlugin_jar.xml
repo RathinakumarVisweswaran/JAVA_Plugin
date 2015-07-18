@@ -11,6 +11,10 @@
       <element id="extracted-dir" path="C:/Project/neuroph-2.9/neuroph-samples-2.9.jar" path-in-jar="/" />
       <element id="extracted-dir" path="C:/Project/neuroph-2.9/libs/slf4j-api-1.7.5.jar" path-in-jar="/" />
       <element id="extracted-dir" path="C:/Project/neuroph-2.9/neuroph-core-2.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jess.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jsr94.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kxml2-2.2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kxml2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

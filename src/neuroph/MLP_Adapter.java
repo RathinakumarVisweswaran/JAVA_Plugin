@@ -9,7 +9,7 @@ import org.neuroph.core.transfer.*;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.NeuronProperties;
 import org.neuroph.util.TransferFunctionType;
-import xml.XESSPlus;
+import xml.MachineLearning;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class MLP_Adapter implements Adapter {
 
     @Override
-    public String tranNeuralNetwork(XESSPlus xsPlus, String saveLocation) throws IOException {
+    public String tranNeuralNetwork(MachineLearning machineLearning, String saveLocation) throws IOException {
         // TODO Auto-generated method stub
         // get the path to file with data
         /*
@@ -35,7 +35,7 @@ public class MLP_Adapter implements Adapter {
 			<xs:element name="delimiter" type="xs:string"/>
          */
 
-        xml.Classification xmlClassification = xsPlus.getClassification();
+        xml.Classification xmlClassification = machineLearning.getClassification();
         xml.MultiLayerPerceptron xmlMLP = xmlClassification.getAlgorithm().getMultiLayerPerceptron();
 
 
@@ -95,15 +95,16 @@ public class MLP_Adapter implements Adapter {
 
     private String saveModel(MultiLayerPerceptron neuralNet, String saveLocation)
     {
-        //saving the model
-        File outputDir = new File(saveLocation+"\\"+System.currentTimeMillis());
-        //File input = new File(inputFileName);
+        File outputDir = new File(saveLocation+File.separator+System.currentTimeMillis());
+        String saveFile = "";
         if(outputDir.mkdir())
         {
-            neuralNet.save(outputDir.getAbsolutePath().concat("\\MLP"));
-            System.out.println("saving to " + outputDir.getAbsolutePath().concat("\\MLP"));
+            String modelName = "Neuroph_MLP";
+            saveFile = outputDir.getAbsolutePath().concat(File.separator + modelName);
+            neuralNet.save(saveFile);
+            System.out.println("saving to " + saveFile);
         }
-        return outputDir.getAbsolutePath().concat("\\MLP");
+        return saveFile;
     }
 
     public void testNeuralNetwork(String savedModel, String testDataFile, String output) throws IOException {
